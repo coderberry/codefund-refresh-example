@@ -1,0 +1,52 @@
+<html>
+
+<head>
+	<title>CodeFund Refresh Example</title>
+	<meta charset="UTF-8" />
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	 crossorigin="anonymous">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
+
+<body class="p-3">
+	<div id="codefund_refresh_example"></div>
+
+	<div class="text-center">
+		<button class="btn btn-primary m-3" id="refreshAd" disabled>Refresh in <span>10</span> seconds</button>
+		<small class="d-block">The refresh may not show a different advertiser at times.<br/>Advertisers are chosen randomly</small>
+	</div>
+
+	<script src="https://codefund.io/scripts/1fc4e04d-9622-4844-81f9-7522c7d19ac7/embed.js?target=codefund_refresh_example"></script>
+	<script type="text/javascript">
+		
+		jQuery(function($) {
+
+			// Function to support timer .. for demonstration purposes only
+			var startTimer = function(seconds) {
+				$('#refreshAd').html("Refresh in <span>10</span> seconds");
+				$('#refreshAd').attr('disabled', 'disabled');
+				var x = setInterval(function() {
+					seconds -= 1;
+					$('#refreshAd span').html(seconds);
+					
+					if (seconds === 0) {
+						clearInterval(x);
+						$('#refreshAd').html("Refresh");
+						$('#refreshAd').attr('disabled', false);
+						}
+				 }, 1000);
+			 }
+	
+			$('#refreshAd').on('click', function () {
+				if (typeof _codefund !== 'undefined') {
+					_codefund.serve(); // <-- This is what triggers the refresh
+					startTimer(10);
+				} 
+			});
+
+		 startTimer(10);
+		});
+	</script>
+</body>
+
+</html>
